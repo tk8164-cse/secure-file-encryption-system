@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Secure File Vault</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 50px; background-color: #f4f6f9; }
+        .container { max-width: 600px; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        h2 { color: #333; }
+        .section { margin-bottom: 25px; padding: 15px; border: 1px solid #ddd; border-radius: 4px; }
+        input[type="file"], input[type="text"] { margin: 10px 0; width: 100%; padding: 8px; }
+        button { background-color: #007bff; color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 4px; }
+        button:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Secure Cryptographic File System</h2>
+    <p>Logged in as authenticated agent.</p>
+    <hr>
+
+    <div class="section">
+        <h3>1. Encrypt File (AES-GCM)</h3>
+        <form th:action="@{/encrypt}" method="post" enctype="multipart/form-data">
+            <label>Select Document:</label>
+            <input type="file" name="file" required />
+            <button type="submit">Encrypt & Download</button>
+        </form>
+    </div>
+
+    <div class="section">
+        <h3>2. Decrypt File</h3>
+        <form th:action="@{/decrypt}" method="post" enctype="multipart/form-data">
+            <label>Upload Encrypted (.enc) File:</label>
+            <input type="file" name="file" required />
+
+            <label>Original Target Filename (to match key reference):</label>
+            <input type="text" name="keyOwner" placeholder="example.txt" required />
+
+            <button type="submit" style="background-color: #28a745;">Decrypt & Recover</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html> 
