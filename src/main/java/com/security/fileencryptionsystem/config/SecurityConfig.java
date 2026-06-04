@@ -14,9 +14,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // Completely disables CSRF token filtering on POST streams
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
-                .formLogin(form -> form.permitAll())
+                .formLogin(form -> form
+                        .loginPage("/login")               // Points Spring Security to your custom page
+                        .defaultSuccessUrl("/", true)      // Forces redirection back to home page after entering correct credentials
+                        .permitAll()
+                )
                 .logout(logout -> logout.permitAll());
 
         return http.build();

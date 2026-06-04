@@ -25,6 +25,10 @@ public class FileController {
 
     // CHOOSE YOUR LOCAL TESTING DIRECTORY HERE
     private static final String TEST_DIR = "C:/encrypt-test/";
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
 
     @GetMapping("/")
     public String index() {

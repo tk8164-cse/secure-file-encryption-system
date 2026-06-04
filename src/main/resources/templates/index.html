@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Secure File Vault Dashboard</title>
+    <title>Secure File Vault Engine</title>
     <style>
         * {
             box-sizing: border-box;
@@ -10,106 +10,109 @@
             padding: 0;
         }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #12141c;
-            color: #e2e8f0;
-            line-height: 1.6;
-            padding: 40px 20px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+            line-height: 1.5;
+            padding: 50px 20px;
         }
-        .container {
-            max-width: 750px;
+        .dashboard-wrapper {
+            max-width: 900px;
             margin: 0 auto;
         }
-        header {
-            text-align: center;
-            margin-bottom: 35px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #2d3748;
-        }
-        header h1 {
-            font-size: 24pt;
-            font-weight: 700;
+        .top-banner {
+            background-color: #0f172a;
             color: #ffffff;
-            margin-bottom: 8px;
-            letter-spacing: -0.5px;
+            padding: 35px 40px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
         }
-        header p {
-            color: #a0aec0;
+        .top-banner h1 {
+            font-size: 20pt;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 6px;
+        }
+        .top-banner p {
+            color: #94a3b8;
             font-size: 11pt;
         }
-        .status-badge {
+        /* Highlight stats summary layout component */
+        .system-pill {
             display: inline-block;
-            background-color: #10b981;
-            color: #042f2e;
+            background-color: #1e293b;
+            color: #38bdf8;
+            font-size: 8.5pt;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 6px;
+            margin-top: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .main-grid {
+            display: block;
+        }
+        .module-block {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 35px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+        }
+        /* Thick modern left accent border layout pattern */
+        .module-block h2 {
+            font-size: 13pt;
+            color: #0f172a;
+            font-weight: 700;
+            margin-bottom: 12px;
+            border-left: 4px solid #3b82f6;
+            padding-left: 12px;
+        }
+        .module-block.decrypt-block h2 {
+            border-left-color: #10b981;
+        }
+        .module-block p {
+            color: #64748b;
+            font-size: 10.5pt;
+            margin-bottom: 25px;
+        }
+        .input-label {
+            display: block;
             font-size: 9pt;
             font-weight: 600;
-            padding: 4px 12px;
-            border-radius: 20px;
-            margin-top: 10px;
-        }
-        .card {
-            background-color: #1e2230;
-            border: 1px solid #2d3748;
-            border-radius: 12px;
-            padding: 30px;
-            margin-bottom: 25px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-        }
-        .card h2 {
-            font-size: 14pt;
-            color: #ffffff;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-        /* Structural Sidebar Accent on the section headings */
-        .card h2::before {
-            content: "";
-            display: inline-block;
-            width: 4px;
-            height: 16px;
-            background-color: #10b981;
-            margin-right: 10px;
-            vertical-align: middle;
-            border-radius: 2px;
-        }
-        .card p {
-            color: #a0aec0;
-            font-size: 10.5pt;
-            margin-bottom: 20px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            display: block;
-            font-size: 9.5pt;
-            font-weight: 600;
-            color: #cbd5e1;
+            color: #475569;
             margin-bottom: 8px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
+        .field-container {
+            margin-bottom: 20px;
+        }
         input[type="file"] {
             display: block;
             width: 100%;
-            padding: 12px;
-            background-color: #12141c;
-            border: 1px dashed #4a5568;
+            padding: 16px;
+            background-color: #f8fafc;
+            border: 1px dashed #cbd5e1;
             border-radius: 8px;
-            color: #cbd5e1;
-            cursor: pointer;
+            color: #475569;
             font-size: 10pt;
+            cursor: pointer;
         }
         input[type="file"]:hover {
-            border-color: #10b981;
+            border-color: #3b82f6;
+            background-color: #f1f5f9;
         }
         input[type="text"] {
             width: 100%;
-            padding: 12px;
-            background-color: #12141c;
-            border: 1px solid #4a5568;
+            padding: 14px 16px;
+            background-color: #ffffff;
+            border: 1px solid #cbd5e1;
             border-radius: 8px;
-            color: #ffffff;
+            color: #0f172a;
             font-size: 10pt;
             transition: border-color 0.2s;
         }
@@ -117,80 +120,82 @@
             outline: none;
             border-color: #10b981;
         }
-        button {
-            display: inline-block;
+        .action-button {
+            display: block;
             width: 100%;
             padding: 14px;
-            background-color: #10b981;
+            background-color: #3b82f6;
             color: #ffffff;
-            font-size: 11pt;
+            font-size: 10.5pt;
             font-weight: 600;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             transition: background-color 0.2s;
         }
-        button:hover {
-            background-color: #059669;
-        }
-        .btn-decrypt {
-            background-color: #3b82f6;
-        }
-        .btn-decrypt:hover {
+        .action-button:hover {
             background-color: #2563eb;
         }
-        footer {
+        .decrypt-block .action-button {
+            background-color: #10b981;
+        }
+        .decrypt-block .action-button:hover {
+            background-color: #059669;
+        }
+        .footer-note {
             text-align: center;
             margin-top: 40px;
             font-size: 9pt;
-            color: #4a5568;
+            color: #94a3b8;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <header>
+<div class="dashboard-wrapper">
+    <div class="top-banner">
         <h1>Secure Cryptographic File System</h1>
-        <p>Advanced Enterprise Data Protection Terminal</p>
-        <span class="status-badge">Authenticated Secure Connection</span>
-    </header>
-
-    <div class="card">
-        <h2>AES-256 GCM File Encryption</h2>
-        <p>Upload any raw document asset to scramble its content bytes and embed an authenticated 12-byte cryptographic vector tag initialization sequence.</p>
-
-        <form th:action="@{/encrypt}" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-                <label>Target Object Asset</label>
-                <input type="file" name="file" required />
-            </div>
-            <button type="submit">Execute Secure Encryption</button>
-        </form>
+        <p>Enterprise Data Cryptography Execution Terminal</p>
+        <div class="system-pill">AES-GCM Authenticated Link Live</div>
     </div>
 
-    <div class="card">
-        <h2>Cryptographic Key Recovery & Decryption</h2>
-        <p>Provide an encrypted system bundle artifact alongside its original corresponding reference identification target map token to revert the data math cipher state.</p>
+    <div class="main-grid">
+        <div class="module-block">
+            <h2>AES-256 Symmetric Encryption</h2>
+            <p>Upload a clean data block asset to initiate the byte-scrambling sequence and prepend an unpredictable random initialization vector segment mapping token.</p>
 
-        <form th:action="@{/decrypt}" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-                <label>Encrypted Artifact (.enc)</label>
-                <input type="file" name="file" required />
-            </div>
+            <form th:action="@{/encrypt}" method="post" enctype="multipart/form-data">
+                <div class="field-container">
+                    <label class="input-label">Source Data Asset</label>
+                    <input type="file" name="file" required />
+                </div>
+                <button type="submit" class="action-button">Process Secured Encryption Sequence</button>
+            </form>
+        </div>
 
-            <div class="form-group">
-                <label>Original Reference Key Identification Target Mapping</label>
-                <input type="text" name="keyOwner" placeholder="e.g., project_blueprint.txt" required />
-            </div>
+        <div class="module-block decrypt-block">
+            <h2>Symmetric Cipher Recovery & Decryption</h2>
+            <p>Process a cipher text payload structural layout configuration and cross-reference its storage key assignment map to recover the original readable string arrays.</p>
 
-            <button type="submit" class="btn-decrypt">Execute Safe Recovery Decryption</button>
-        </form>
+            <form th:action="@{/decrypt}" method="post" enctype="multipart/form-data">
+                <div class="field-container">
+                    <label class="input-label">Encrypted Object Artifact (.enc)</label>
+                    <input type="file" name="file" required />
+                </div>
+
+                <div class="field-container">
+                    <label class="input-label">Original Corresponding Key Entry Token Mapping String</label>
+                    <input type="text" name="keyOwner" placeholder="e.g., project_blueprint.txt" required />
+                </div>
+
+                <button type="submit" class="action-button">Process Cryptographic Decryption Loop</button>
+            </form>
+        </div>
     </div>
 
-    <footer>
-        <p>AES Block Cipher Terminal • Demonstrating Cryptographic Implementation Security Skills</p>
-    </footer>
+    <div class="footer-note">
+        Symmetric Key Cryptography Sandbox Architecture Platform
+    </div>
 </div>
 
 </body>
