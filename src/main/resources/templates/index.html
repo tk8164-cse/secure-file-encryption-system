@@ -1,46 +1,197 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Secure File Vault</title>
+    <meta charset="UTF-8">
+    <title>Secure File Vault Dashboard</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 50px; background-color: #f4f6f9; }
-        .container { max-width: 600px; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        h2 { color: #333; }
-        .section { margin-bottom: 25px; padding: 15px; border: 1px solid #ddd; border-radius: 4px; }
-        input[type="file"], input[type="text"] { margin: 10px 0; width: 100%; padding: 8px; }
-        button { background-color: #007bff; color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 4px; }
-        button:hover { background-color: #0056b3; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #12141c;
+            color: #e2e8f0;
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 750px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 35px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #2d3748;
+        }
+        header h1 {
+            font-size: 24pt;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+        header p {
+            color: #a0aec0;
+            font-size: 11pt;
+        }
+        .status-badge {
+            display: inline-block;
+            background-color: #10b981;
+            color: #042f2e;
+            font-size: 9pt;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-top: 10px;
+        }
+        .card {
+            background-color: #1e2230;
+            border: 1px solid #2d3748;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        .card h2 {
+            font-size: 14pt;
+            color: #ffffff;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        /* Structural Sidebar Accent on the section headings */
+        .card h2::before {
+            content: "";
+            display: inline-block;
+            width: 4px;
+            height: 16px;
+            background-color: #10b981;
+            margin-right: 10px;
+            vertical-align: middle;
+            border-radius: 2px;
+        }
+        .card p {
+            color: #a0aec0;
+            font-size: 10.5pt;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 9.5pt;
+            font-weight: 600;
+            color: #cbd5e1;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        input[type="file"] {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #12141c;
+            border: 1px dashed #4a5568;
+            border-radius: 8px;
+            color: #cbd5e1;
+            cursor: pointer;
+            font-size: 10pt;
+        }
+        input[type="file"]:hover {
+            border-color: #10b981;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            background-color: #12141c;
+            border: 1px solid #4a5568;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 10pt;
+            transition: border-color 0.2s;
+        }
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #10b981;
+        }
+        button {
+            display: inline-block;
+            width: 100%;
+            padding: 14px;
+            background-color: #10b981;
+            color: #ffffff;
+            font-size: 11pt;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #059669;
+        }
+        .btn-decrypt {
+            background-color: #3b82f6;
+        }
+        .btn-decrypt:hover {
+            background-color: #2563eb;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 9pt;
+            color: #4a5568;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Secure Cryptographic File System</h2>
-    <p>Logged in as authenticated agent.</p>
-    <hr>
+    <header>
+        <h1>Secure Cryptographic File System</h1>
+        <p>Advanced Enterprise Data Protection Terminal</p>
+        <span class="status-badge">Authenticated Secure Connection</span>
+    </header>
 
-    <div class="section">
-        <h3>1. Encrypt File (AES-GCM)</h3>
+    <div class="card">
+        <h2>AES-256 GCM File Encryption</h2>
+        <p>Upload any raw document asset to scramble its content bytes and embed an authenticated 12-byte cryptographic vector tag initialization sequence.</p>
+
         <form th:action="@{/encrypt}" method="post" enctype="multipart/form-data">
-            <label>Select Document:</label>
-            <input type="file" name="file" required />
-            <button type="submit">Encrypt & Download</button>
+            <div class="form-group">
+                <label>Target Object Asset</label>
+                <input type="file" name="file" required />
+            </div>
+            <button type="submit">Execute Secure Encryption</button>
         </form>
     </div>
 
-    <div class="section">
-        <h3>2. Decrypt File</h3>
+    <div class="card">
+        <h2>Cryptographic Key Recovery & Decryption</h2>
+        <p>Provide an encrypted system bundle artifact alongside its original corresponding reference identification target map token to revert the data math cipher state.</p>
+
         <form th:action="@{/decrypt}" method="post" enctype="multipart/form-data">
-            <label>Upload Encrypted (.enc) File:</label>
-            <input type="file" name="file" required />
+            <div class="form-group">
+                <label>Encrypted Artifact (.enc)</label>
+                <input type="file" name="file" required />
+            </div>
 
-            <label>Original Target Filename (to match key reference):</label>
-            <input type="text" name="keyOwner" placeholder="example.txt" required />
+            <div class="form-group">
+                <label>Original Reference Key Identification Target Mapping</label>
+                <input type="text" name="keyOwner" placeholder="e.g., project_blueprint.txt" required />
+            </div>
 
-            <button type="submit" style="background-color: #28a745;">Decrypt & Recover</button>
+            <button type="submit" class="btn-decrypt">Execute Safe Recovery Decryption</button>
         </form>
     </div>
+
+    <footer>
+        <p>AES Block Cipher Terminal • Demonstrating Cryptographic Implementation Security Skills</p>
+    </footer>
 </div>
 
 </body>
-</html> 
+</html>
